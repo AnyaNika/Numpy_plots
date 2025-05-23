@@ -24,13 +24,13 @@ parsed_data = []
 for divan in divans:
    try:
      # Находим цену
-     price = divan.find_element(By.CSS_SELECTOR, 'span.ui-LD-ZU.KIkOH').text
+     divan_price = divan.find_element(By.CSS_SELECTOR, 'span.ui-LD-ZU.KIkOH').text
    except Exception as e:
      print(f"произошла ошибка при парсинге: {e}")
      continue
 
     # Вносим найденную информацию в список
-   parsed_data.append([price])
+   parsed_data.append([divan_price])
 
 # Закрываем подключение браузер
 driver.quit()
@@ -44,12 +44,12 @@ with open("divan.csv", 'w',newline='', encoding='utf-8') as file:
 
 
 def clean_price(price):
-    # Удаляем "he," и преобразуем в число
-    return int(price.replace(' ₽/мес.', '').replace(' ', ''))
+    # Удаляем "руб." и преобразуем в число
+    return int(price.replace('руб.', '').replace(' ', ''))
 
 
 # Чтение данных из исходного CSV файла и их обработка
-input_file = 'prices.csv'
+input_file = 'divan.csv'
 output_file = 'cleaned_prices.csv'
 
 with open(input_file, mode='r', encoding='utf-8') as infile, open(output_file, mode='w', newline='',
